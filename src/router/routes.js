@@ -6,46 +6,59 @@ export default[
         redirect: '/home'
     },
     {
-        path:'login',
-        component:()=>import(/* WebpackChunkName: "individuation_index" */ '../views/login/Login')
-    },
-    {
         path:'/home',
-        name:'Name',
-        component:()=>import(/* WebpackChunkName: "home_index" */'../views/home/Home'),
-        redirect:'/home/individuation',//先显示home中的这个组件
+        component:()=>import('../views/home/Home'),
+        redirect:'/home/discover',
         children:[
             {
-                path:'/home/individuation',//这里要把路径写完整不然不会显示
-                component: () => import(/* WebpackChunkName: "individuation_index" */'../views/individuation/Individuation')
+                path:'/home/discover',
+                component:()=>import('../views/discover/Discover'),
+                redirect:'/home/discover/person',
+                children:[
+                    {
+                        path:'/home/discover/person',
+                        name:'person',
+                        component:()=>import('../views/discover/children/Person')
+                    },
+                    {
+                        path:'/home/discover/musiclist',
+                        name:'musiclist',
+                        component:()=>import('../views/discover/children/MusicList'),
+                        children:[
+                            {
+                                path:'/home/discover/musiclist/musiclistindex',
+                                name:'musiclistindex',
+                                component:()=>import('../views/discover/children/music-children/MusicListIndex')
+                            },
+                            {
+                                path:'/home/discover/musiclist/musiclisthighquality',
+                                name:'musiclisthighquality',
+                                component:()=>import('../views/discover/children/music-children/MusicListHighquality')
+                            }
+                        ]
+                    },
+                    {
+                        path:'/home/discover/ranking',
+                        component:()=>import('../views/discover/children/Ranking')
+                    },
+                    {
+                        path:'/home/discover/singer',
+                        component:()=>import('../views/discover/children/Singer')
+                    }
+                ]
             },
             {
-                path: '/home/playlist',
-                component: () => import(/* WebpackChunkName: "playlist_index" */ '@/views/playlist/PlayList')
+                path:'/home/video',
+                component:()=>import('../views/video/Video')
             },
             {
-                path: '/home/songs',
-                component: () => import(/* WebpackChunkName: "songs_index" */ '@/views/songs/Songs')
+                path:'/home/favorite',
+                component:()=>import('../views/favorite/Favorite')
             },
             {
-                path:'/home/mv',
-                //不知道下面两个是干什么的
-                // name: 'mv',
-                // meta: { noTopNav: true },
-                component:()=>import(/* WebpackChunkName: "mv_index" */'../views/Mv/MvIndex')
-            },
-            {
-                path: '/home/leaderboard',
-                // name: 'leaderboard',
-                // meta: { noTopNav: true },
-                component: () => import(/* WebpackChunkName: "leaderboard_index" */ '../views/leaderboard/LeaderBoard')
-            },
-            {
-                path: '/home/singer',
-                // name: 'singer',
-                // meta: { noTopNav: true },
-                component: () => import(/* WebpackChunkName: "singer_index" */ '../views/singer/SingerIndex')
+                path:'/home/recommend',
+                component:()=>import('../views/recommend/Recommend')
             },
         ]
-    },
+    }
 ]
