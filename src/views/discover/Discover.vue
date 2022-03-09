@@ -24,7 +24,7 @@ export default {
       // 发现音乐中头部导航的数据
       navBarData: [
         { name: "个性推荐", path: "/home/discover/person" },
-        { name: "歌单", path: "musicList" },//这里使用name命名的路由
+        { name: "歌单", path: "/home/discover/musiclist" },//这里使用name命名的路由
         { name: "排行榜", path: "/home/discover/ranking" },
         { name: "歌手", path: "/home/discover/singer" },
       ],
@@ -41,7 +41,8 @@ export default {
 
 <style scoped>
 .recommendContainer{
-  height: 630px;
+  /* height: 630px; */
   /* background-color: chartreuse; */
+  /* overflow-y: scroll; */
 }
 </style>

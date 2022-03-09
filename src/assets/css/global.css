@@ -12,3 +12,25 @@ html,body,#app{
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.el-slider{
+    top: 30px !important;
+    position: absolute;
+    zoom: 0.8 !important;
+    width: 350px;
+}
+.el-tooltip  .el-slider__button{
+width: 6px !important;
+height: 6px !important;
+border:1px solid rgb(255, 78, 78) !important;
+}
+.el-slider__runway{
+    height: 4px !important;
+}
+.el-tooltip{
+    width: 7px !important;
+    height: 7px !important;
+    margin-bottom: 2px;
+}
+.el-slider__bar{
+    background-color: rgb(255, 78, 78) !important;
+}

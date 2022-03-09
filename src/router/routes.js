@@ -1,5 +1,6 @@
 //不懂可以去看看电商项目的p204
 
+
 export default[
     {
         path: '/',
@@ -24,16 +25,12 @@ export default[
                         path:'/home/discover/musiclist',
                         name:'musiclist',
                         component:()=>import('../views/discover/children/MusicList'),
+                        redirect:'/home/discover/musiclist/musiclistindex',
                         children:[
                             {
                                 path:'/home/discover/musiclist/musiclistindex',
                                 name:'musiclistindex',
                                 component:()=>import('../views/discover/children/music-children/MusicListIndex')
-                            },
-                            {
-                                path:'/home/discover/musiclist/musiclisthighquality',
-                                name:'musiclisthighquality',
-                                component:()=>import('../views/discover/children/music-children/MusicListHighquality')
                             }
                         ]
                     },
@@ -49,7 +46,18 @@ export default[
             },
             {
                 path:'/home/video',
-                component:()=>import('../views/video/Video')
+                component:()=>import('../views/video/Video'),
+                redirect:'/home/video/videolist',
+                children:[
+                    {
+                        path:'/home/video/videolist',
+                        component:()=>import('../views/video/videoChildren/VideoList')
+                    },
+                    {
+                        path:'/home/video/mvlist',
+                        component:()=>import('../views/video//videoChildren/MvList')
+                    }
+                ],
             },
             {
                 path:'/home/favorite',
@@ -59,6 +67,11 @@ export default[
                 path:'/home/recommend',
                 component:()=>import('../views/recommend/Recommend')
             },
+            {
+                path:"/home/musiclistdetail/:id",
+                name:'musicListDetail',
+                component:()=>import('../views/musicListDetail/MusicListDetail')
+            }
         ]
     }
 ]

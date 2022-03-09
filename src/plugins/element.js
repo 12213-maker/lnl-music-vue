@@ -19,6 +19,17 @@ import {
     CarouselItem,
     InfiniteScroll,
     Col,
+    Pagination,
+    Form,
+    FormItem,
+    Tabs,
+    TabPane,
+    Table,
+    TableColumn,
+    Slider,
+    Progress,
+    Drawer,
+    Backtop
 }
     from 'element-ui'
 
@@ -41,6 +52,18 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(InfiniteScroll)
 Vue.use(Col);
+Vue.use(Pagination)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Slider)
+Vue.use(Progress)
+Vue.use(Drawer)
+Vue.use(Backtop)
+
 
 
 Vue.prototype.$message = Message

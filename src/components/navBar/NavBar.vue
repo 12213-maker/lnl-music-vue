@@ -26,7 +26,14 @@ export default {
         }
     },
     created(){
-        
+        //根据地址判断activeIndex
+        //在页面刷新的时候,获取route.path的值,再重新渲染给activeIndex
+        this.navBarItem.forEach((item,index) => {
+            if(decodeURI(this.$route.path).search(item.path)!=-1){
+                this.activeIndex = index
+                // console.log(this.activeIndex);
+            }
+        });
     },
     methods:{
         clickBarItem(path,index){
@@ -35,7 +42,7 @@ export default {
             return;
 
             // 要实现点击之后跳到相应的页面/discover/children/Person
-            this.$emit('clickBarItem',path)
+            this.$emit('clickBarItem',path)//给父组件传递要跳转的路径
             //修改激活的子页面
             this.activeIndex=index
 

@@ -13,6 +13,7 @@
     <div class="recommendMusicList">
       <h3 class="title2">推荐歌单<i class="iconfont icon-arrow-right"></i></h3>
       <ListCard
+      type="person"
         class="con"
         :musicListData="musicList"
         @clickListCardItem="clickListCardItem"
@@ -70,10 +71,12 @@ export default {
 
 <style>
 .person {
-  height: 100%;
+  /* height: 100%; */
   padding: 0 20px;
+  height: 588px;
+  /* overflow-y: scroll; */
   /* background-color: cadetblue; */
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 .carousel {
   display: flex;
@@ -126,7 +129,7 @@ el-carousel__item--card {
   line-height: 30px;
 }
 .recommendMusicList {
-  padding-left: 7%;
+  /* padding-left: 7%; */
   width: 100%;
   line-height: 20px;
   /* background-color: cornflowerblue; */
