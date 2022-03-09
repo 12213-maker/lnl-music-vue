@@ -18,4 +18,4 @@ npm run build
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-此项目为本人练习所作,提交
+此项目为本人练习所作,提交1
