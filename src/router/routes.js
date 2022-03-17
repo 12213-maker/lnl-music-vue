@@ -59,9 +59,17 @@ export default[
                     }
                 ],
             },
+            {path:'/home/videodetail/:id',name:'videodetail',component:()=>import('../views/videoDetail/VideoDetai')},
             {
                 path:'/home/favorite',
-                component:()=>import('../views/favorite/Favorite')
+                component:()=>import('../views/favorite/Favorite'),
+                redirect:'/home/favorite/album',
+                children:[
+                    {path:'/home/favorite/album',component:()=>import('../views/favorite/children/Album')},
+                    {path:'/home/favorite/Collection_video',component:()=>import('../views/favorite/children/Collection_video')},
+                    {path:'/home/favorite/Column',component:()=>import('../views/favorite/children/Column')},
+                    {path:'/home/favorite/Singer',component:()=>import('../views/favorite/children/Singer')},
+                ],
             },
             {
                 path:'/home/recommend',
@@ -71,6 +79,19 @@ export default[
                 path:"/home/musiclistdetail/:id",
                 name:'musicListDetail',
                 component:()=>import('../views/musicListDetail/MusicListDetail')
+            },
+            {
+                path:'/home/search',
+                component:()=>import('../views/search/Search'),
+                name:'search',
+                redirect:'/home/search/searchsong/:id',
+                children:[
+                    {path:'/home/search/searchsong/:id',name:'searchsong',component:()=>import('../views/search/searchChildren/SearchSong')},
+                    {path:'/home/search/searchalbum/:id',name:'searchalbum',component:()=>import('../views/search/searchChildren/SearchAlbum')},
+                    {path:'/home/search/searchmusiclist/:id',name:'searchmusiclist',component:()=>import('../views/search/searchChildren/SearchMusicList')},
+                    {path:'/home/search/searchsinger/:id',name:'searchsinger',component:()=>import('../views/search/searchChildren/SearchSinger')},
+                    {path:'/home/search/searchvideo/:id',name:'searchvideo',component:()=>import('../views/search/searchChildren/SearchVideo')}
+                ]
             }
         ]
     }

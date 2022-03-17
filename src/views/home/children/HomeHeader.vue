@@ -20,13 +20,53 @@
         </el-button>
       </div>
 
-      <!-- 搜索框 -->
+      <!-- 搜索框
       <el-input
         size="mini"
         placeholder="输入搜索的音乐"
         clearable
         v-model="input"
-      ></el-input>
+        @change="search"
+      ></el-input> -->
+
+
+      <el-popover
+        placement="bottom"
+        width="300"
+        v-model="isSearchPopShow"
+        popper-class="searchPop"
+        trigger="focus"
+        title="热搜榜"
+        
+      >
+        <el-input
+          size="mini"
+          placeholder="输入搜索的音乐"
+          clearable
+          v-model="input"
+          @change="search"
+          slot="reference"
+        >
+        </el-input>
+
+        <div class="hotsearch">
+          <div class="item_group">
+            <div 
+            class="item"
+            v-for="(item,index) in hotSearchList"
+            :key="index"
+            @click="clickHotSearchItem(item.searchWord)"
+            >
+            <span class="index">{{index+1}}</span>
+            <span>{{item.searchWord}}</span>
+            <span>{{item.score}}</span>
+            <span class="img"><img v-if="item.iconUrl" :src="item.iconUrl" alt=""></span>
+            </div>
+          </div>
+        </div>
+      </el-popover>
+
+
 
       <el-row class="elrow">
         <el-button
@@ -42,15 +82,12 @@
       <!-- 登录的部分 -->
       <div @click="loginVisible = true" class="li2">
         <div class="avatar">
-          <img class="img33" 
-          v-if="userInfo.avatarUrl" 
-          :src="userInfo.avatarUrl"
+          <img
+            class="img33"
+            v-if="userInfo.avatarUrl"
+            :src="userInfo.avatarUrl"
           />
-          <img 
-          v-else 
-          class="img2" 
-          src="../../../assets/img/test.jpg"
-          />
+          <img v-else class="img2" src="../../../assets/img/test.jpg" />
         </div>
 
         <div class="userName" v-if="userInfo.nickname">
@@ -75,17 +112,14 @@
     <el-dialog title="手机号登录" :visible.sync="loginVisible" width="400px">
       <div>
         <div class="login">
-          <el-form 
-          ref="ruleForm" 
-          label-width="100px" 
-          class="demo-ruleForm">
+          <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item class="item" label="账号 :" prop="phone">
               <el-input
                 class="input1"
                 placeholder="请输入账号"
                 clearable
                 v-model="user.username"
-                style="left:0;"
+                style="left: 0"
               ></el-input>
             </el-form-item>
             <el-form-item class="item" label="密码 :" prop="password2">
@@ -95,7 +129,7 @@
                 v-model="user.password"
                 clearable
                 show-password
-                style="left:0;"
+                style="left: 0"
               ></el-input>
             </el-form-item>
           </el-form>
@@ -119,20 +153,25 @@ export default {
   data() {
     return {
       isSearchPopShow: false,
+      // 热搜列表数据
+      hotSearchList: [],
+
+
+
       input: "",
       dialogVisible: false,
       //登录的弹窗是否可见
       loginVisible: false,
 
-      user:{
+      user: {
         username: "",
-        password: ""
+        password: "",
       },
 
       //登录返回的所有数据
       loginData: {},
       //用户的信息
-      userInfo:{}
+      userInfo: {},
     };
   },
   methods: {
@@ -159,8 +198,7 @@ export default {
         //修改vuex中的登录状态
         console.log(result);
         this.$store.commit("updataLoginState", true);
-      } 
-      else if (result.data.code == 400) {
+      } else if (result.data.code == 400) {
         // 手机号错误
         this.$message.error("手机号错误!");
         return;
@@ -175,34 +213,32 @@ export default {
       }
 
       // this.userInfo = result.data;
-      this.loginData = result.data.profile
-      this.userInfo = result.data.profile
+      this.loginData = result.data.profile;
+      this.userInfo = result.data.profile;
 
       //重置表单
-      this.user.username=''
-      this.user.password=''
+      this.user.username = "";
+      this.user.password = "";
 
       this.loginVisible = false;
     },
 
     //获取当前用户的信息
-    async getCurrentUserInfo(){
+    async getCurrentUserInfo() {
       var timestamp = Date.parse(new Date());
       let res = await this.$request("/user/account", {
         timestamp,
       });
       // console.log(res);
 
-      if(res.data.profile!=null){
-        this.userInfo = res.data.profile
+      if (res.data.profile != null) {
+        this.userInfo = res.data.profile;
         // console.log(this.userInfo);
         //更新登录状态
-        this.$store.commit('updataLoginState',true)
+        this.$store.commit("updataLoginState", true);
         //将请求到的用户id存入localstorage
-        window.localStorage.setItem('userId',res.data.profile.userId)
-
-      }
-      else{
+        window.localStorage.setItem("userId", res.data.profile.userId);
+      } else {
         //未登录
         this.$store.commit("updataLoginState", false);
         // 如果localstorage存有userId就清除
@@ -212,14 +248,49 @@ export default {
       }
     },
 
+    //获取热搜榜列表
+    async getHotSearch(){
+      let res = await this.$request('/search/hot/detail')
+      this.hotSearchList = res.data.data
+    },
+
+    /* 热搜歌曲的点击事件 */
+    clickHotSearchItem(value){
+      this.input = value
+      //跳转到详情页面
+      this.goSearch();
+    },
+    //跳转到详情页面
+    goSearch(){
+      this.isSearchPopShow = false;
+      //跳转到详情页面
+      this.$router.push({
+        name:'search',
+        params:{
+          id:this.input
+        }
+      })
+    },
+    search(){
+      if(this.input!='')
+      //跳转到详情页面
+      this.$router.push({
+        name:'search',
+        params:{
+          id:this.input
+        }
+      })
+    },
+
   },
-  created(){
-    this.getCurrentUserInfo()
-  }
+  created() {
+    this.getCurrentUserInfo();
+    this.getHotSearch();
+  },
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .HomeHeader {
   display: flex;
   align-items: center;
@@ -297,7 +368,7 @@ export default {
   border-radius: 20px;
 }
 .img2 {
-    width: 100%;
+  width: 100%;
 }
 .userName {
   position: fixed;
@@ -310,7 +381,50 @@ export default {
   top: 0;
   left: 500px;
 }
-.input1{
+.input1 {
   display: block;
+}
+
+
+.hotsearch{
+  // background-color: #bfa;
+  overflow: auto;
+  height: 500px;
+  .item_group{
+    font-size: 12px;
+    .item{
+      cursor: pointer;
+      height:50px;
+      line-height: 50px;
+      // background-color: pink;
+      // padding: 5px 0;
+      span{
+        padding: 0 10px;
+      }
+      .img{
+        width: 50px;
+        height: 100px;
+        // background-color: aqua;
+        img{
+          width: 20px;
+          height: 15px;
+        }
+      }
+      .index:nth-child(1),
+      .index:nth-child(2),
+      .index:nth-child(3){
+        font-size: 14px;
+        color: rgb(122, 115, 115);
+      }
+    }
+    .item:hover{
+      background-color: rgb(242, 242, 242);
+    }
+  }
+}
+</style>
+<style>
+  .el-popover ,.el-popper ,.searchPop{
+  padding: 20px 0 0 0  !important;
 }
 </style>

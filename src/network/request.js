@@ -5,8 +5,8 @@ import axios from 'axios'
 export function request(url,params){
     const instance = axios.create({
         baseURL:'/api',
-        timeout:30000,
-        withCredentials:true,//表示跨域请求时是否需要使用凭证
+        timeout:3000,
+        withCredentials:true,//允许跨域携带cookie信息
     })
 
     //请求拦截器
@@ -39,7 +39,7 @@ export function request(url,params){
     )
 
     
-    instance.defaults.withCredentials = true//这步是干什么的我搞忘记了
+    instance.defaults.withCredentials = true//允许跨域携带cookie信息
     
     //如果有参数
     if(params){

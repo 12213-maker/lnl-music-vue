@@ -34,3 +34,9 @@ border:1px solid rgb(255, 78, 78) !important;
 .el-slider__bar{
     background-color: rgb(255, 78, 78) !important;
 }
+.el-main {
+    line-height: 0;
+  }
+  el-table_1_column_2  ,.el-main[data-v-3dd2e005],   is-leaf el-table__cell{
+    line-height: 0;
+  }

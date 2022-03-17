@@ -55,7 +55,7 @@ export default {
     },
     //用全局事件总线进行通信
     getList(id) {
-      console.log(id);
+      // console.log(id);
     },
   },
   mounted() {

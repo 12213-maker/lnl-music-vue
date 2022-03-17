@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <!-- <el-backtop target=".content" :bottom="500"><i class="el-icon-caret-top"></i></el-backtop> -->
     <!-- 导航栏 -->
     <div class="navigation">
       <SortBox
@@ -23,8 +24,10 @@
         :musicListData="MusicList"
         @isSortPopShow="handleisSortPopShow"
         @bottomLoad='bottomLoad'
+        @clickListCardItem="routerpushvideodetail"
       />
     </div>
+    
   </div>
 </template>
 
@@ -104,6 +107,13 @@ export default {
       if(this.hasMore){
         this.getMusicInfo(this.currentTag.id)
       }
+    },
+    /* 点击跳转到详情页面 */
+    routerpushvideodetail({id}){
+      this.$router.push({
+        name:'videodetail',
+        params:{id}
+      })
     }
   },
   async created() {

@@ -31,7 +31,12 @@
       :infinite-scroll-distance="300"
       :infinite-scroll-immediate="false"
     >
-      <div class="item" v-for="(item, index) in musicListData" :key="index">
+      <div
+        class="item"
+        v-for="(item, index) in musicListData"
+        :key="index"
+        @click="clickListCardItem1(item.vid || item.data.vid, index, item.type)"
+      >
         <div class="item_box">
           <div class="img1"><img :src="item.data.coverUrl" alt="" /></div>
           <div class="play_count">30万+</div>
@@ -43,6 +48,33 @@
           </div>
           <div class="author">by:{{ item.data.creator.nickname }}</div>
         </div>
+      </div>
+    </div>
+
+    <div
+      v-else
+      class="ablum"
+      v-infinite-scroll="load"
+      :infinite-scroll-disabled="disabled"
+      :infinite-scroll-distance="300"
+      :infinite-scroll-immediate="false"
+      ref="listCard"
+    >
+      <div
+        class="item2"
+        v-for="(item, index) in musicListData"
+        :key="index"
+        @click="clickListCardItem(item.id)"
+      >
+        <div class="item_box2">
+          <div class="img2">
+            <img
+              :src="(item.picUrl || item.coverImgUrl || item.coverUrl) + '?param=400y400'"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="bottom">{{ item.name ||item.title}}</div>
       </div>
     </div>
   </div>
@@ -61,16 +93,20 @@ export default {
   },
   methods: {
     //
-    clickListCardItem1(id) {
-      //下面这个不知道有没有起作用
+    clickListCardItem1(id, index, type) {
+      // let {data:{vid:id}} = item
+      // 下面这个不知道有没有起作用
       this.$bus.$emit("getdata", id);
-      this.$emit("clickListCardItem", id);
+      // this.$emit("clickListCardItem", id);
+      this.$emit("clickListCardItem", { id, index, type });
+      // console.log(item);
     },
     //无限滚动的方法 上拉触底触发
     load() {
-      setTimeout(() => {  //发送请求有时间间隔第一个滚动时间结束后才发送第二个请求
+      setTimeout(() => {
+        //发送请求有时间间隔第一个滚动时间结束后才发送第二个请求
         this.$emit("bottomLoad");
-      }, 500);    
+      }, 500);
       // 触发load后加载数据 期间不允许再次触发load事件
       this.disabled = true;
     },
@@ -221,6 +257,55 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+}
+
+.ablum {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-bottom: 120px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 60px;
+  padding-bottom: 120px;
+  .item2 {
+    margin: 10px;
+    height: 15.7vw;
+    width: 13vw;
+    overflow: hidden;
+    // border-radius: 10px;
+    min-width: 155px;
+    min-height: 175px;
+    position: relative;
+    // background-color: pink;
+    display: flex;
+    flex-direction: column;
+    .item_box2 {
+      height: 13vw;
+      .img2 {
+        height: 100%;
+        img {
+          height: 100%;
+          border-radius: 10px;
+          min-width: 155px;
+          min-height: 155px;
+        }
+        
+      }
+    }
+    .bottom {
+      // background-color: aquamarine;
+      line-height: 15px;
+      font-size: 13px;
+      text-align: left;
+      padding-top: 10px;
+
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
   }
 }
 </style>
